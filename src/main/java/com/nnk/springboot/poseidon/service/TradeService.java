@@ -10,37 +10,57 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.poseidon.domain.Trade;
+import com.nnk.springboot.poseidon.dto.TradeDto;
+import com.nnk.springboot.poseidon.mapper.MapStructMapper;
 import com.nnk.springboot.poseidon.repository.TradeRepository;
 
 @Service
 public class TradeService {
 
 	@Autowired
+	private MapStructMapper mapStructMapper;
+
+	@Autowired
 	private TradeRepository tradeRepository;
 
-	public Collection<Trade> getTrades() {
+	public Collection<TradeDto> getTrades() {
 
 		Collection<Trade> trades = tradeRepository.findAll();
 
-		return trades;
+		Collection<TradeDto> tradeDtos = mapStructMapper.tradesToTradeDtos(trades);
+
+		return tradeDtos;
 	}
 
 	@Transactional
-	public void saveTrade(@Valid Trade trade) {
+	public TradeDto saveTrade(@Valid TradeDto tradeDtoToSave) {
 
-		tradeRepository.save(trade);
+		Trade tradeToSave = mapStructMapper.tradeDtoToTrade(tradeDtoToSave);
+
+		Trade tradeSaved = tradeRepository.save(tradeToSave);
+
+		return mapStructMapper.tradeToTradeDto(tradeSaved);
 
 	}
 
-	public Optional<Trade> getTradeByTradeId(Integer id) {
+	public Optional<TradeDto> getTradeByTradeId(Integer id) {
 
 		Optional<Trade> trade = tradeRepository.findByTradeId(id);
 
-		return trade;
+		if (trade.isPresent()) {
+			Optional<TradeDto> tradeDto = Optional.of(mapStructMapper.tradeToTradeDto(trade.get()));
+			return tradeDto;
+		} else {
+			Optional<TradeDto> tradeDto = Optional.empty();
+			return tradeDto;
+		}
+
 	}
 
 	@Transactional
-	public void deleteTrade(Trade tradeToDelete) {
+	public void deleteTrade(TradeDto tradeDtoToDelete) {
+
+		Trade tradeToDelete = mapStructMapper.tradeDtoToTrade(tradeDtoToDelete);
 
 		tradeRepository.delete(tradeToDelete);
 

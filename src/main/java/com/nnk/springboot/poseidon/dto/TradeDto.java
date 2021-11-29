@@ -17,10 +17,4 @@ public class TradeDto {
 
 	private Double buyQuantity;
 
-	public TradeDto(String account, String type) {
-		super();
-		this.account = account;
-		this.type = type;
-	}
-
 }

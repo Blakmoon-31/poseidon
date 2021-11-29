@@ -9,39 +9,59 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.poseidon.domain.BidList;
+import com.nnk.springboot.poseidon.dto.BidListDto;
+import com.nnk.springboot.poseidon.mapper.MapStructMapper;
 import com.nnk.springboot.poseidon.repository.BidListRepository;
 
 @Service
 public class BidListService {
 
 	@Autowired
+	private MapStructMapper mapStructMapper;
+
+	@Autowired
 	private BidListRepository bidListRepository;
 
-	public Collection<BidList> getBidLists() {
+	public Collection<BidListDto> getBidLists() {
 
 		Collection<BidList> bidLists = bidListRepository.findAll();
 
-		return bidLists;
+		Collection<BidListDto> bidListDtos = mapStructMapper.bidListsToBidListDtos(bidLists);
+
+		return bidListDtos;
 	}
 
-	public Optional<BidList> getBidListByBidListId(Integer id) {
+	public Optional<BidListDto> getBidListByBidListId(Integer id) {
 
-		Optional<BidList> bidlist = bidListRepository.findByBidListId(id);
+		Optional<BidList> bidList = bidListRepository.findByBidListId(id);
 
-		return bidlist;
+		if (bidList.isPresent()) {
+			Optional<BidListDto> bidListDto = Optional.of(mapStructMapper.bidListToBidListDto(bidList.get()));
+			return bidListDto;
+		} else {
+			Optional<BidListDto> bidListDto = Optional.empty();
+			return bidListDto;
+		}
+
 	}
 
 	@Transactional
-	public void deleteBidList(BidList bidListToDelete) {
+	public void deleteBidList(BidListDto bidListDtoToDelete) {
+
+		BidList bidListToDelete = mapStructMapper.bidListDtoToBidList(bidListDtoToDelete);
 
 		bidListRepository.delete(bidListToDelete);
 
 	}
 
 	@Transactional
-	public void saveBid(BidList bidList) {
+	public BidListDto saveBid(BidListDto bidListDtoToSave) {
 
-		bidListRepository.save(bidList);
+		BidList bidListToSave = mapStructMapper.bidListDtoToBidList(bidListDtoToSave);
+
+		BidList bidListSaved = bidListRepository.save(bidListToSave);
+
+		return mapStructMapper.bidListToBidListDto(bidListSaved);
 
 	}
 

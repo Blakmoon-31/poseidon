@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.nnk.springboot.poseidon.domain.Rating;
+import com.nnk.springboot.poseidon.dto.RatingDto;
 import com.nnk.springboot.poseidon.service.RatingService;
 
 @Controller
@@ -31,16 +31,16 @@ public class RatingController {
 	}
 
 	@GetMapping("/rating/add")
-	public String addRatingForm(Rating rating) {
+	public String addRatingForm(RatingDto ratingDto) {
 		return "rating/add";
 	}
 
 	@PostMapping("/rating/validate")
-	public String validate(@Validated Rating rating, BindingResult result, Model model) {
+	public String validate(@Validated RatingDto ratingDto, BindingResult result, Model model) {
 		// TODO: check data valid and save to db, after saving return Rating list
 
 		if (!result.hasErrors()) {
-			ratingService.saveRating(rating);
+			ratingService.saveRating(ratingDto);
 			model.addAttribute("ratings", ratingService.getRatings());
 			return "redirect:/rating/list";
 		}
@@ -51,20 +51,20 @@ public class RatingController {
 	@GetMapping("/rating/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
-		model.addAttribute("rating", ratingService.getRatingById(id).get());
+		model.addAttribute("ratingDto", ratingService.getRatingById(id).get());
 
 		return "rating/update";
 	}
 
 	@PutMapping("/rating/update/{id}")
-	public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result,
+	public String updateRating(@PathVariable("id") Integer id, @Valid RatingDto ratingdto, BindingResult result,
 			Model model) {
 		// TODO: check required fields, if valid call service to update Rating and
 		// return Rating list
 
 		if (!result.hasErrors()) {
-			rating.setId(id);
-			ratingService.saveRating(rating);
+			ratingdto.setId(id);
+			ratingService.saveRating(ratingdto);
 			model.addAttribute("ratings", ratingService.getRatings());
 			return "redirect:/rating/list";
 		}
@@ -75,8 +75,8 @@ public class RatingController {
 	@GetMapping("/rating/delete/{id}")
 	public String deleteRating(@PathVariable("id") Integer id, Model model) {
 
-		Rating ratingToDelete = ratingService.getRatingById(id).get();
-		ratingService.deleteRating(ratingToDelete);
+		RatingDto ratingDtoToDelete = ratingService.getRatingById(id).get();
+		ratingService.deleteRating(ratingDtoToDelete);
 
 		return "redirect:/rating/list";
 	}

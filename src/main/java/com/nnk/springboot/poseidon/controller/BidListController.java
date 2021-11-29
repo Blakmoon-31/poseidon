@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.nnk.springboot.poseidon.domain.BidList;
+import com.nnk.springboot.poseidon.dto.BidListDto;
 import com.nnk.springboot.poseidon.service.BidListService;
 
 @Controller
@@ -30,15 +30,15 @@ public class BidListController {
 	}
 
 	@GetMapping("/bidList/add")
-	public String addBidForm(BidList bid) {
+	public String addBidForm(BidListDto bidDto) {
 		return "bidList/add";
 	}
 
 	@PostMapping("/bidList/validate")
-	public String validate(@Valid BidList bid, BindingResult result, Model model) {
+	public String validate(@Valid BidListDto bidDto, BindingResult result, Model model) {
 
 		if (!result.hasErrors()) {
-			bidListService.saveBid(bid);
+			bidListService.saveBid(bidDto);
 			model.addAttribute("bidLists", bidListService.getBidLists());
 			return "redirect:/bidList/list";
 		}
@@ -49,19 +49,20 @@ public class BidListController {
 	@GetMapping("/bidList/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
-		model.addAttribute("bidList", bidListService.getBidListByBidListId(id).get());
+		model.addAttribute("bidListDto", bidListService.getBidListByBidListId(id).get());
 
 		return "bidList/update";
 	}
 
 	@PutMapping("/bidList/update/{id}")
-	public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result, Model model) {
+	public String updateBid(@PathVariable("id") Integer id, @Valid BidListDto bidListDto, BindingResult result,
+			Model model) {
 		// TODO: check required fields, if valid call service to update Bid and return
 		// list Bid
 
 		if (!result.hasErrors()) {
-			bidList.setBidListId(id);
-			bidListService.saveBid(bidList);
+			bidListDto.setBidListId(id);
+			bidListService.saveBid(bidListDto);
 			model.addAttribute("bidLists", bidListService.getBidLists());
 			return "redirect:/bidList/list";
 		}
@@ -72,8 +73,8 @@ public class BidListController {
 	@GetMapping("/bidList/delete/{id}")
 	public String deleteBid(@PathVariable("id") Integer id, Model model) {
 
-		BidList bidListToDelete = bidListService.getBidListByBidListId(id).get();
-		bidListService.deleteBidList(bidListToDelete);
+		BidListDto bidListDtoToDelete = bidListService.getBidListByBidListId(id).get();
+		bidListService.deleteBidList(bidListDtoToDelete);
 
 		return "redirect:/bidList/list";
 	}

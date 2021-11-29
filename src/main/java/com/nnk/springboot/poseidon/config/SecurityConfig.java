@@ -23,11 +23,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/", "/home", "/login", "/logout").permitAll()
-				.antMatchers("/secure/article-details").hasAuthority("ADMIN").anyRequest().authenticated().and()
-				.formLogin().loginPage("/login").defaultSuccessUrl("/loginValidate", true)
-				.failureUrl("/login?error=true").permitAll().and().logout().deleteCookies("JSESSIONID")
-				.logoutUrl("/app-logout").logoutSuccessUrl("/home");
+		http.csrf().disable().authorizeRequests().antMatchers("/", "/home", "/login", "/logout", "/user/add")
+				.permitAll().antMatchers("/secure/article-details").hasAuthority("ADMIN").anyRequest().authenticated()
+				.and().formLogin().defaultSuccessUrl("/user/list", true).failureUrl("/login?error=true").permitAll()
+				.and().logout().logoutUrl("/app-logout").invalidateHttpSession(true).deleteCookies("JSESSIONID")
+				.logoutSuccessUrl("/");
 
 	}
 

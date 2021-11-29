@@ -24,11 +24,4 @@ public class RatingDto {
 
 	private Integer orderNumber;
 
-	public RatingDto(String moodysRating, String sandPRating, String fitchRating, Integer orderNumber) {
-		super();
-		this.moodysRating = moodysRating;
-		this.sandPRating = sandPRating;
-		this.fitchRating = fitchRating;
-		this.orderNumber = orderNumber;
-	}
 }

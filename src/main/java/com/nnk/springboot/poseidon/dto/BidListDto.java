@@ -20,11 +20,4 @@ public class BidListDto {
 
 	private Double bidQuantity;
 
-	public BidListDto(String account, String type, Double bidQuantity) {
-		super();
-		this.account = account;
-		this.type = type;
-		this.bidQuantity = bidQuantity;
-	}
-
 }

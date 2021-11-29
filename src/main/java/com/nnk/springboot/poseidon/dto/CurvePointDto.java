@@ -16,11 +16,4 @@ public class CurvePointDto {
 
 	private Double value;
 
-	public CurvePointDto(Integer curveId, Double term, Double value) {
-		super();
-		this.curveId = curveId;
-		this.term = term;
-		this.value = value;
-	}
-
 }

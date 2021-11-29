@@ -21,7 +21,7 @@ public class BidList {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "BidListId")
-	private Integer BidListId;
+	private Integer bidListId;
 
 	@NotBlank(message = "Account is mandatory")
 	@Size(max = 30)
@@ -89,12 +89,5 @@ public class BidList {
 
 	@Column(name = "side")
 	private String side;
-
-	public BidList(String account, String type, Double bidQuantity) {
-		super();
-		this.account = account;
-		this.type = type;
-		this.bidQuantity = bidQuantity;
-	}
 
 }

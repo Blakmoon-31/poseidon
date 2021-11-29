@@ -19,10 +19,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.poseidon.domain.User;
+import com.nnk.springboot.poseidon.dto.UserDto;
+import com.nnk.springboot.poseidon.mapper.MapStructMapper;
 import com.nnk.springboot.poseidon.repository.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService {
+
+	@Autowired
+	private MapStructMapper mapStructMapper;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -30,23 +35,26 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	public Collection<User> getUsers() {
+	public Collection<UserDto> getUsers() {
 
 		Collection<User> users = userRepository.findAll();
 
-		return users;
+		Collection<UserDto> userDtos = mapStructMapper.usersToUserDtos(users);
+
+		return userDtos;
 	}
 
 	@Transactional
-	public String saveUser(@Valid User user) {
+	public String saveUser(@Valid UserDto userDtoToSave) {
 
 		// Validating password format
-		String userPassword = user.getPassword();
-		boolean isPasswordValid = isValidPassword(userPassword);
+		final String USER_PASSWORD = userDtoToSave.getPassword();
+		boolean isPasswordValid = isValidPassword(USER_PASSWORD);
 
 		if (isPasswordValid) {
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
-			userRepository.save(user);
+			userDtoToSave.setPassword(passwordEncoder.encode(userDtoToSave.getPassword()));
+			User userToSave = mapStructMapper.userDtoToUser(userDtoToSave);
+			userRepository.save(userToSave);
 			return "User saved";
 		} else {
 			return "Invalid password";
@@ -54,15 +62,23 @@ public class UserService implements UserDetailsService {
 
 	}
 
-	public Optional<User> getUserById(Integer id) {
+	public Optional<UserDto> getUserById(Integer id) {
 
 		Optional<User> user = userRepository.findById(id);
 
-		return user;
+		if (user.isPresent()) {
+			Optional<UserDto> userDto = Optional.of(mapStructMapper.userToUserDto(user.get()));
+			return userDto;
+		} else {
+			Optional<UserDto> userDto = Optional.empty();
+			return userDto;
+		}
 	}
 
 	@Transactional
-	public void deleteUser(User userToDelete) {
+	public void deleteUser(UserDto userDtoToDelete) {
+
+		User userToDelete = mapStructMapper.userDtoToUser(userDtoToDelete);
 
 		userRepository.delete(userToDelete);
 
@@ -92,7 +108,7 @@ public class UserService implements UserDetailsService {
 				// _________________________
 				// Parameters
 				final String MIN_LENGHT = "8";
-				final String MAX_LENGHT = "125";
+				// final String MAX_LENGHT = "125";
 				final boolean SPECIAL_CHAR_NEEDED = true;
 
 				// _________________________
@@ -102,12 +118,13 @@ public class UserService implements UserDetailsService {
 				// must occur at least once, not needed in project
 				final String UPPER_CASE = "(?=.*[A-Z])"; // (?=.*[A-Z]) an upper case letter must occur at least once
 
-				// final String MIN_CHAR = ".{" + MIN_LENGHT + ",}"; //.{8,} at least 8
+				final String MIN_CHAR = ".{" + MIN_LENGHT + ",}"; // .{8,} at least 8
 				// characters
-				final String MIN_MAX_CHAR = ".{" + MIN_LENGHT + "," + MAX_LENGHT + "}"; // .{8,125} represents minimum
-																						// of
-																						// 8 characters and maximum of
-																						// 125 characters
+				// final String MIN_MAX_CHAR = ".{" + MIN_LENGHT + "," + MAX_LENGHT + "}"; //
+				// .{8,125} represents minimum
+				// of
+				// 8 characters and maximum of
+				// 125 characters
 
 				final String SPECIAL_CHAR;
 				if (SPECIAL_CHAR_NEEDED)
@@ -118,7 +135,7 @@ public class UserService implements UserDetailsService {
 				// Pattern
 				// String pattern =
 				// "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
-				final String PATTERN = ONE_DIGIT + UPPER_CASE + SPECIAL_CHAR + MIN_MAX_CHAR;
+				final String PATTERN = ONE_DIGIT + UPPER_CASE + SPECIAL_CHAR + MIN_CHAR;
 				// _________________________
 				result = PASSWORD.matches(PATTERN);
 				// _________________________

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.nnk.springboot.poseidon.domain.RuleName;
+import com.nnk.springboot.poseidon.dto.RuleNameDto;
 import com.nnk.springboot.poseidon.service.RuleNameService;
 
 @Controller
@@ -30,16 +30,16 @@ public class RuleNameController {
 	}
 
 	@GetMapping("/ruleName/add")
-	public String addRuleForm(RuleName bid) {
+	public String addRuleForm(RuleNameDto ruleNameDto) {
 		return "ruleName/add";
 	}
 
 	@PostMapping("/ruleName/validate")
-	public String validate(@Valid RuleName ruleName, BindingResult result, Model model) {
+	public String validate(@Valid RuleNameDto ruleNameDto, BindingResult result, Model model) {
 		// TODO: check data valid and save to db, after saving return RuleName list
 
 		if (!result.hasErrors()) {
-			ruleNameService.saveRuleName(ruleName);
+			ruleNameService.saveRuleName(ruleNameDto);
 			model.addAttribute("ruleNames", ruleNameService.getRuleNames());
 			return "redirect:/ruleName/list";
 		}
@@ -50,20 +50,20 @@ public class RuleNameController {
 	@GetMapping("/ruleName/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
-		model.addAttribute("ruleName", ruleNameService.getRuleNameById(id).get());
+		model.addAttribute("ruleNameDto", ruleNameService.getRuleNameById(id).get());
 
 		return "ruleName/update";
 	}
 
 	@PutMapping("/ruleName/update/{id}")
-	public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName, BindingResult result,
+	public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleNameDto ruleNameDto, BindingResult result,
 			Model model) {
 		// TODO: check required fields, if valid call service to update RuleName and
 		// return RuleName list
 
 		if (!result.hasErrors()) {
-			ruleName.setId(id);
-			ruleNameService.saveRuleName(ruleName);
+			ruleNameDto.setId(id);
+			ruleNameService.saveRuleName(ruleNameDto);
 			model.addAttribute("ruleNames", ruleNameService.getRuleNames());
 			return "redirect:/ruleName/list";
 		}
@@ -74,8 +74,8 @@ public class RuleNameController {
 	@GetMapping("/ruleName/delete/{id}")
 	public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
 
-		RuleName ruleNameToDelete = ruleNameService.getRuleNameById(id).get();
-		ruleNameService.deleteRuleName(ruleNameToDelete);
+		RuleNameDto ruleNamedtoToDelete = ruleNameService.getRuleNameById(id).get();
+		ruleNameService.deleteRuleName(ruleNamedtoToDelete);
 
 		return "redirect:/ruleName/list";
 	}

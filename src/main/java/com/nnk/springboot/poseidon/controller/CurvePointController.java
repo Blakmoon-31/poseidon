@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.nnk.springboot.poseidon.domain.CurvePoint;
+import com.nnk.springboot.poseidon.dto.CurvePointDto;
 import com.nnk.springboot.poseidon.service.CurvePointService;
 
 @Controller
@@ -30,15 +30,15 @@ public class CurvePointController {
 	}
 
 	@GetMapping("/curvePoint/add")
-	public String addBidForm(CurvePoint bid) {
+	public String addCurvePointForm(CurvePointDto curvePointDto) {
 		return "curvePoint/add";
 	}
 
 	@PostMapping("/curvePoint/validate")
-	public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
+	public String validate(@Valid CurvePointDto curvePointDto, BindingResult result, Model model) {
 
 		if (!result.hasErrors()) {
-			curvePointService.saveCurvePoint(curvePoint);
+			curvePointService.saveCurvePoint(curvePointDto);
 			model.addAttribute("curvePoints", curvePointService.getCurvePoints());
 			return "redirect:/curvePoint/list";
 		}
@@ -49,20 +49,20 @@ public class CurvePointController {
 	@GetMapping("/curvePoint/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
-		model.addAttribute("curvePoint", curvePointService.getCurvePointById(id).get());
+		model.addAttribute("curvePointDto", curvePointService.getCurvePointById(id).get());
 
 		return "curvePoint/update";
 	}
 
 	@PutMapping("/curvePoint/update/{id}")
-	public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result,
+	public String updateBid(@PathVariable("id") Integer id, @Valid CurvePointDto curvePointDto, BindingResult result,
 			Model model) {
 		// TODO: check required fields, if valid call service to update Curve and return
 		// Curve list
 
 		if (!result.hasErrors()) {
-			curvePoint.setId(id);
-			curvePointService.saveCurvePoint(curvePoint);
+			curvePointDto.setId(id);
+			curvePointService.saveCurvePoint(curvePointDto);
 			model.addAttribute("curvePoints", curvePointService.getCurvePoints());
 			return "redirect:/curvePoint/list";
 		}
@@ -73,8 +73,8 @@ public class CurvePointController {
 	@GetMapping("/curvePoint/delete/{id}")
 	public String deleteBid(@PathVariable("id") Integer id, Model model) {
 
-		CurvePoint curvePointToDelete = curvePointService.getCurvePointById(id).get();
-		curvePointService.deleteCurvepoint(curvePointToDelete);
+		CurvePointDto curvePointDtoToDelete = curvePointService.getCurvePointById(id).get();
+		curvePointService.deleteCurvePoint(curvePointDtoToDelete);
 
 		return "redirect:/curvePoint/list";
 	}

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.nnk.springboot.poseidon.domain.Trade;
+import com.nnk.springboot.poseidon.dto.TradeDto;
 import com.nnk.springboot.poseidon.service.TradeService;
 
 @Controller
@@ -30,16 +30,16 @@ public class TradeController {
 	}
 
 	@GetMapping("/trade/add")
-	public String addUser(Trade bid) {
+	public String addUser(TradeDto tradeDto) {
 		return "trade/add";
 	}
 
 	@PostMapping("/trade/validate")
-	public String validate(@Valid Trade trade, BindingResult result, Model model) {
+	public String validate(@Valid TradeDto tradeDto, BindingResult result, Model model) {
 		// TODO: check data valid and save to db, after saving return Trade list
 
 		if (!result.hasErrors()) {
-			tradeService.saveTrade(trade);
+			tradeService.saveTrade(tradeDto);
 			model.addAttribute("trades", tradeService.getTrades());
 			return "redirect:/trade/list";
 		}
@@ -50,19 +50,20 @@ public class TradeController {
 	@GetMapping("/trade/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
-		model.addAttribute("trade", tradeService.getTradeByTradeId(id));
+		model.addAttribute("tradeDto", tradeService.getTradeByTradeId(id).get());
 
 		return "trade/update";
 	}
 
 	@PutMapping("/trade/update/{id}")
-	public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result, Model model) {
+	public String updateTrade(@PathVariable("id") Integer id, @Valid TradeDto tradeDto, BindingResult result,
+			Model model) {
 		// TODO: check required fields, if valid call service to update Trade and return
 		// Trade list
 
 		if (!result.hasErrors()) {
-			trade.setTradeId(id);
-			tradeService.saveTrade(trade);
+			tradeDto.setTradeId(id);
+			tradeService.saveTrade(tradeDto);
 			model.addAttribute("trades", tradeService.getTrades());
 			return "redirect:/trade/list";
 		}
@@ -73,8 +74,8 @@ public class TradeController {
 	@GetMapping("/trade/delete/{id}")
 	public String deleteTrade(@PathVariable("id") Integer id, Model model) {
 
-		Trade tradeToDelete = tradeService.getTradeByTradeId(id).get();
-		tradeService.deleteTrade(tradeToDelete);
+		TradeDto tradeDtoToDelete = tradeService.getTradeByTradeId(id).get();
+		tradeService.deleteTrade(tradeDtoToDelete);
 
 		return "redirect:/trade/list";
 	}

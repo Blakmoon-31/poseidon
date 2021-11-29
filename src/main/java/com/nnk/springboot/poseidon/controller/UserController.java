@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.nnk.springboot.poseidon.domain.User;
+import com.nnk.springboot.poseidon.dto.UserDto;
 import com.nnk.springboot.poseidon.service.UserService;
 
 @Controller
@@ -28,14 +28,14 @@ public class UserController {
 	}
 
 	@GetMapping("/user/add")
-	public String addUser(User bid) {
+	public String addUser(UserDto userDto) {
 		return "user/add";
 	}
 
 	@PostMapping("/user/validate")
-	public String validate(@Valid User user, BindingResult result, Model model) {
+	public String validate(@Valid UserDto userDto, BindingResult result, Model model) {
 		if (!result.hasErrors()) {
-			String saveResult = userService.saveUser(user);
+			String saveResult = userService.saveUser(userDto);
 			if (saveResult == "User saved") {
 				model.addAttribute("users", userService.getUsers());
 				return "redirect:/user/list";
@@ -50,18 +50,19 @@ public class UserController {
 
 	@GetMapping("/user/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		User user = userService.getUserById(id)
+		UserDto userDto = userService.getUserById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-		user.setPassword("");
-		model.addAttribute("user", user);
+		userDto.setPassword("");
+		model.addAttribute("userDto", userDto);
 		return "user/update";
 	}
 
 	@PutMapping("/user/update/{id}")
-	public String updateUser(@PathVariable("id") Integer id, @Valid User user, BindingResult result, Model model) {
+	public String updateUser(@PathVariable("id") Integer id, @Valid UserDto userDto, BindingResult result,
+			Model model) {
 		if (!result.hasErrors()) {
-			user.setId(id);
-			String saveResult = userService.saveUser(user);
+			userDto.setId(id);
+			String saveResult = userService.saveUser(userDto);
 			if (saveResult == "User saved") {
 				model.addAttribute("users", userService.getUsers());
 				return "redirect:/user/list";
@@ -78,9 +79,9 @@ public class UserController {
 
 	@GetMapping("/user/delete/{id}")
 	public String deleteUser(@PathVariable("id") Integer id, Model model) {
-		User userToDelete = userService.getUserById(id)
+		UserDto userDtoToDelete = userService.getUserById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-		userService.deleteUser(userToDelete);
+		userService.deleteUser(userDtoToDelete);
 		model.addAttribute("users", userService.getUsers());
 		return "redirect:/user/list";
 	}

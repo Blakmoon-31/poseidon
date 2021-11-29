@@ -85,10 +85,4 @@ public class Trade {
 	@Column(name = "side")
 	private String side;
 
-	public Trade(String account, String type) {
-		super();
-		this.account = account;
-		this.type = type;
-	}
-
 }

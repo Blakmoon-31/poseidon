@@ -34,14 +34,4 @@ public class RuleNameDto {
 	@Size(max = 125)
 	private String sqlPart;
 
-	public RuleNameDto(String name, String description, String json, String template, String sqlStr, String sqlPart) {
-		super();
-		this.name = name;
-		this.description = description;
-		this.json = json;
-		this.template = template;
-		this.sqlStr = sqlStr;
-		this.sqlPart = sqlPart;
-	}
-
 }
