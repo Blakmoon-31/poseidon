@@ -3,34 +3,32 @@ package com.nnk.springboot.poseidon.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.nnk.springboot.poseidon.repository.UserRepository;
+import com.nnk.springboot.poseidon.service.UserService;
 
 @Controller
-@RequestMapping("app")
 public class LoginController {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 
 	@GetMapping("login")
 	public ModelAndView login() {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("login");
+		mav.setViewName("trade/list");
 		return mav;
 	}
 
-	@GetMapping("secure/article-details")
+	@GetMapping("/app/secure/article-details")
 	public ModelAndView getAllUserArticles() {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("users", userRepository.findAll());
+		mav.addObject("users", userService.getUsers());
 		mav.setViewName("user/list");
 		return mav;
 	}
 
-	@GetMapping("error")
+	@GetMapping("/error")
 	public ModelAndView error() {
 		ModelAndView mav = new ModelAndView();
 		String errorMessage = "You are not authorized for the requested data.";

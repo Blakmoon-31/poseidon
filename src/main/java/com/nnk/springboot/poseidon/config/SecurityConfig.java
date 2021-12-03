@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.oidc.web.logout.OidcClientInitiatedLogoutSuccessHandler;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 
 import com.nnk.springboot.poseidon.service.UserService;
 
@@ -21,14 +23,45 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserService customUserDetailsService;
 
+	@Autowired
+	private ClientRegistrationRepository clientRegistrationRepository;
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/", "/home", "/login", "/logout", "/user/add")
-				.permitAll().antMatchers("/secure/article-details").hasAuthority("ADMIN").anyRequest().authenticated()
-				.and().formLogin().defaultSuccessUrl("/user/list", true).failureUrl("/login?error=true").permitAll()
-				.and().logout().logoutUrl("/app-logout").invalidateHttpSession(true).deleteCookies("JSESSIONID")
-				.logoutSuccessUrl("/");
+		http.csrf().disable().authorizeRequests().antMatchers("/", "/home", "/login", "/logout", "/error").permitAll()
+				.antMatchers("/app/secure/article-details", "/user/**").hasAuthority("ADMIN").anyRequest()
+				.authenticated().and().formLogin().defaultSuccessUrl("/bidList/list", true).and().logout()
+				.logoutUrl("/app-logout").logoutSuccessHandler(oidcLogoutSuccessHandler()).invalidateHttpSession(true)
+				.clearAuthentication(true).deleteCookies("JSESSIONID").logoutSuccessUrl("/").and().oauth2Login()
+				.defaultSuccessUrl("/bidList/list", true);
 
+//			http.csrf().disable()
+//					.authorizeRequests()
+//						.antMatchers("/", "/home", "/login", "/logout", "/user/add", "/error")
+//							.permitAll()
+//						.antMatchers("/app/secure/article-details", "/user/list")
+//							.hasAuthority("ADMIN")
+//						.anyRequest()
+//							.authenticated()
+//					.and()
+//						.formLogin()
+//						.defaultSuccessUrl("/bidList/list", true)
+//						.failureUrl("/login?error=true")
+//							.permitAll()
+//					.and()
+//						.logout()
+//							.logoutUrl("/app-logout")
+//							.invalidateHttpSession(true)
+//							.deleteCookies("JSESSIONID")
+//							.logoutSuccessUrl("/");
+
+	}
+
+	private OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler() {
+		OidcClientInitiatedLogoutSuccessHandler successHandler = new OidcClientInitiatedLogoutSuccessHandler(
+				clientRegistrationRepository);
+		successHandler.setPostLogoutRedirectUri("http://localhost:8080/");
+		return successHandler;
 	}
 
 	@Override

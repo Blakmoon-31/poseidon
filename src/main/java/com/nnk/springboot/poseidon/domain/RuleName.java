@@ -9,9 +9,14 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+//@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "rulename")
 public class RuleName {

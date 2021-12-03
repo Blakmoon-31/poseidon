@@ -1,4 +1,4 @@
-package com.nnk.springboot.poseidon.test;
+package com.nnk.springboot.poseidon.test.integration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,7 +21,7 @@ import com.nnk.springboot.poseidon.service.BidListService;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
-public class BidListTests {
+public class BidListServiceIT {
 
 	@Autowired
 	private BidListService bidListService;

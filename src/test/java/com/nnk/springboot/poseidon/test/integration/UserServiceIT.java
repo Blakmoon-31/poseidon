@@ -1,4 +1,4 @@
-package com.nnk.springboot.poseidon.test;
+package com.nnk.springboot.poseidon.test.integration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,12 +16,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.nnk.springboot.poseidon.dto.UserDto;
+import com.nnk.springboot.poseidon.dto.UserListDto;
 import com.nnk.springboot.poseidon.service.UserService;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
-public class UserTests {
+public class UserServiceIT {
 
 	@Autowired
 	private UserService userService;
@@ -49,11 +50,11 @@ public class UserTests {
 	@AfterAll
 	public void resetTestData() {
 
-		Collection<UserDto> userDtos = userService.getUsers();
+		Collection<UserListDto> userListDtos = userService.getUsers();
 
-		for (UserDto user : userDtos) {
+		for (UserListDto user : userListDtos) {
 			if (user.getFullname().equals("Fullname TestInit one") || user.getFullname().equals("FulleName Test")) {
-				userService.deleteUser(user);
+				userService.deleteUser(userService.getUserById(user.getId()).get());
 			}
 		}
 
@@ -62,9 +63,9 @@ public class UserTests {
 	@Test
 	public void testGetUsers() {
 
-		Collection<UserDto> userDtos = userService.getUsers();
+		Collection<UserListDto> userListDtos = userService.getUsers();
 
-		assertThat(userDtos.size() > 0).isTrue();
+		assertThat(userListDtos.size() > 0).isTrue();
 	}
 
 	@Test
@@ -93,8 +94,8 @@ public class UserTests {
 	@Test
 	public void testSaveUserIncorrectPassword() {
 
-		Collection<UserDto> userDtosBeforeTest = userService.getUsers();
-		int userCountBeforeTest = userDtosBeforeTest.size();
+		Collection<UserListDto> userListDtosBeforeTest = userService.getUsers();
+		int userCountBeforeTest = userListDtosBeforeTest.size();
 
 		UserDto userDtoToSave = new UserDto();
 		userDtoToSave.setFullname("FulleName Test");
@@ -103,23 +104,23 @@ public class UserTests {
 		userDtoToSave.setPassword("aaaaaaaa");
 
 		String result = userService.saveUser(userDtoToSave);
-		Collection<UserDto> userDtosAfterTest = userService.getUsers();
+		Collection<UserListDto> userListDtosAfterTest = userService.getUsers();
 
 		assertThat(result).isEqualTo("Invalid password");
 
-		assertThat(userDtosAfterTest.size()).isEqualTo(userCountBeforeTest);
+		assertThat(userListDtosAfterTest.size()).isEqualTo(userCountBeforeTest);
 
 	}
 
 	@Test
 	public void testUserPasswordEncoding() {
 
-		Collection<UserDto> userDtos = userService.getUsers();
+		Collection<UserListDto> userListDtos = userService.getUsers();
 		UserDto userDto = new UserDto();
 
-		for (UserDto user : userDtos) {
+		for (UserListDto user : userListDtos) {
 			if (user.getFullname().equals("Fullname TestInit one")) {
-				userDto = user;
+				userDto = userService.getUserById(user.getId()).get();
 			}
 		}
 
@@ -129,12 +130,12 @@ public class UserTests {
 	@Test
 	public void testUpdateUser() {
 
-		Collection<UserDto> userDtos = userService.getUsers();
+		Collection<UserListDto> userListDtos = userService.getUsers();
 		UserDto userDtoToUpdate = new UserDto();
 
-		for (UserDto user : userDtos) {
+		for (UserListDto user : userListDtos) {
 			if (user.getFullname().equals("Fullname TestInit one")) {
-				userDtoToUpdate = user;
+				userDtoToUpdate = userService.getUserById(user.getId()).get();
 			}
 		}
 
@@ -148,12 +149,12 @@ public class UserTests {
 	@Test
 	public void testDeleteUser() {
 
-		Collection<UserDto> userDtos = userService.getUsers();
+		Collection<UserListDto> userListDtos = userService.getUsers();
 		UserDto userDtoToDelete = new UserDto();
 
-		for (UserDto user : userDtos) {
+		for (UserListDto user : userListDtos) {
 			if (user.getFullname().equals("Fullname TestInit two")) {
-				userDtoToDelete = user;
+				userDtoToDelete = userService.getUserById(user.getId()).get();
 			}
 		}
 

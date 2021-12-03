@@ -16,6 +16,7 @@ import com.nnk.springboot.poseidon.dto.RatingDto;
 import com.nnk.springboot.poseidon.dto.RuleNameDto;
 import com.nnk.springboot.poseidon.dto.TradeDto;
 import com.nnk.springboot.poseidon.dto.UserDto;
+import com.nnk.springboot.poseidon.dto.UserListDto;
 
 @Mapper(componentModel = "spring")
 public interface MapStructMapper {
@@ -54,6 +55,6 @@ public interface MapStructMapper {
 
 	User userDtoToUser(UserDto userDto);
 
-	Collection<UserDto> usersToUserDtos(Collection<User> bidLists);
+	Collection<UserListDto> usersToUserDtos(Collection<User> bidLists);
 
 }

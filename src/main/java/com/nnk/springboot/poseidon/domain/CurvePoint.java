@@ -10,9 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+//@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "curvepoint")
 public class CurvePoint {

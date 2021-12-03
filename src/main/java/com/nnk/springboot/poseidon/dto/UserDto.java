@@ -3,9 +3,17 @@ package com.nnk.springboot.poseidon.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+//@Data
+@Getter
+@Setter
+@NoArgsConstructor
+/*
+ * DTO of user used for add, update and delete methods
+ */
 public class UserDto {
 
 	private Integer id;
@@ -15,7 +23,6 @@ public class UserDto {
 	private String username;
 
 	@NotBlank(message = "Password is mandatory")
-	@Size(min = 8, max = 125)
 	private String password;
 
 	@NotBlank(message = "FullName is mandatory")

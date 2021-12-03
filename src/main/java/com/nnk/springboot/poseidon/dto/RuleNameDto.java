@@ -3,9 +3,14 @@ package com.nnk.springboot.poseidon.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+//@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class RuleNameDto {
 
 	private Integer id;

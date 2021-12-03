@@ -2,9 +2,14 @@ package com.nnk.springboot.poseidon.dto;
 
 import javax.validation.constraints.NotNull;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+//@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class CurvePointDto {
 
 	private Integer id;

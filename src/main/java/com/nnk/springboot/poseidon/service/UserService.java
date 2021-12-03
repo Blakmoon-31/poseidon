@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.poseidon.domain.User;
 import com.nnk.springboot.poseidon.dto.UserDto;
+import com.nnk.springboot.poseidon.dto.UserListDto;
 import com.nnk.springboot.poseidon.mapper.MapStructMapper;
 import com.nnk.springboot.poseidon.repository.UserRepository;
 
@@ -35,13 +36,13 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	public Collection<UserDto> getUsers() {
+	public Collection<UserListDto> getUsers() {
 
 		Collection<User> users = userRepository.findAll();
 
-		Collection<UserDto> userDtos = mapStructMapper.usersToUserDtos(users);
+		Collection<UserListDto> userListDtos = mapStructMapper.usersToUserDtos(users);
 
-		return userDtos;
+		return userListDtos;
 	}
 
 	@Transactional

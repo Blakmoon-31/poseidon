@@ -9,9 +9,14 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+//@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -26,7 +31,6 @@ public class User {
 	private String username;
 
 	@NotBlank(message = "Password is mandatory")
-	@Size(min = 8, max = 125)
 	@Column(name = "password")
 	private String password;
 
