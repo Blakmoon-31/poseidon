@@ -9,6 +9,8 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,6 +29,8 @@ import com.nnk.springboot.poseidon.repository.UserRepository;
 @Service
 public class UserService implements UserDetailsService {
 
+	private static Logger logger = LoggerFactory.getLogger(UserService.class);
+
 	@Autowired
 	private MapStructMapper mapStructMapper;
 
@@ -37,6 +41,7 @@ public class UserService implements UserDetailsService {
 	private PasswordEncoder passwordEncoder;
 
 	public Collection<UserListDto> getUsers() {
+		logger.info("Obtaining list of users, mapping in userListDtos");
 
 		Collection<User> users = userRepository.findAll();
 
@@ -47,23 +52,29 @@ public class UserService implements UserDetailsService {
 
 	@Transactional
 	public String saveUser(@Valid UserDto userDtoToSave) {
+		logger.info("Saving/updating user");
 
 		// Validating password format
 		final String USER_PASSWORD = userDtoToSave.getPassword();
 		boolean isPasswordValid = isValidPassword(USER_PASSWORD);
 
 		if (isPasswordValid) {
+			logger.info("Valide password, saving/updating user");
+
 			userDtoToSave.setPassword(passwordEncoder.encode(userDtoToSave.getPassword()));
 			User userToSave = mapStructMapper.userDtoToUser(userDtoToSave);
 			userRepository.save(userToSave);
 			return "User saved";
 		} else {
+			logger.debug("Invalide password, user not saved/udated");
+
 			return "Invalid password";
 		}
 
 	}
 
 	public Optional<UserDto> getUserById(Integer id) {
+		logger.info("Obtaining user with id " + id + ", mapping in userDto");
 
 		Optional<User> user = userRepository.findById(id);
 
@@ -78,6 +89,7 @@ public class UserService implements UserDetailsService {
 
 	@Transactional
 	public void deleteUser(UserDto userDtoToDelete) {
+		logger.info("Deleting user");
 
 		User userToDelete = mapStructMapper.userDtoToUser(userDtoToDelete);
 
@@ -87,6 +99,7 @@ public class UserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
 		Objects.requireNonNull(username);
 		User user = userRepository.findByUsername(username)
 				.orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -103,6 +116,8 @@ public class UserService implements UserDetailsService {
 	}
 
 	public boolean isValidPassword(final String PASSWORD) {
+		logger.info("Checking user's password format");
+
 		boolean result = false;
 		try {
 			if (PASSWORD != null) {

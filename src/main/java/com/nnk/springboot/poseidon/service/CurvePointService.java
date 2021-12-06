@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ import com.nnk.springboot.poseidon.repository.CurvePointRepository;
 @Service
 public class CurvePointService {
 
+	private static Logger logger = LoggerFactory.getLogger(CurvePointService.class);
+
 	@Autowired
 	private MapStructMapper mapStructMapper;
 
@@ -24,6 +28,7 @@ public class CurvePointService {
 	private CurvePointRepository curvePointRepository;
 
 	public Collection<CurvePointDto> getCurvePoints() {
+		logger.info("Obtaining list of curvePoints, mapping in curvePointDtos");
 
 		Collection<CurvePoint> curvePoints = curvePointRepository.findAll();
 
@@ -33,6 +38,7 @@ public class CurvePointService {
 	}
 
 	public Optional<CurvePointDto> getCurvePointById(Integer id) {
+		logger.info("Obtaining curvePoint with id " + id + ", mapping in curvePointDto");
 
 		Optional<CurvePoint> curvePoint = curvePointRepository.findById(id);
 
@@ -49,6 +55,7 @@ public class CurvePointService {
 
 	@Transactional
 	public void deleteCurvePoint(CurvePointDto curvePointDtoToDelete) {
+		logger.info("Deleting curvePoint");
 
 		CurvePoint curvePointToDelete = mapStructMapper.curvePointDtoToCurvePoint(curvePointDtoToDelete);
 
@@ -58,6 +65,7 @@ public class CurvePointService {
 
 	@Transactional
 	public CurvePointDto saveCurvePoint(@Valid CurvePointDto curvePointDtoToSave) {
+		logger.info("Saving curvePoint, return mapping curvePointDto");
 
 		CurvePoint curvePointToSave = mapStructMapper.curvePointDtoToCurvePoint(curvePointDtoToSave);
 

@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import com.nnk.springboot.poseidon.repository.BidListRepository;
 @Service
 public class BidListService {
 
+	private static Logger logger = LoggerFactory.getLogger(BidListService.class);
+
 	@Autowired
 	private MapStructMapper mapStructMapper;
 
@@ -23,6 +27,7 @@ public class BidListService {
 	private BidListRepository bidListRepository;
 
 	public Collection<BidListDto> getBidLists() {
+		logger.info("Obtaining list of bidLists, mapping in bidListDtos");
 
 		Collection<BidList> bidLists = bidListRepository.findAll();
 
@@ -32,6 +37,7 @@ public class BidListService {
 	}
 
 	public Optional<BidListDto> getBidListByBidListId(Integer id) {
+		logger.info("Obtaining bidList with id " + id + ", mapping in bidListDto");
 
 		Optional<BidList> bidList = bidListRepository.findByBidListId(id);
 
@@ -47,6 +53,7 @@ public class BidListService {
 
 	@Transactional
 	public void deleteBidList(BidListDto bidListDtoToDelete) {
+		logger.info("Deleting bidList");
 
 		BidList bidListToDelete = mapStructMapper.bidListDtoToBidList(bidListDtoToDelete);
 
@@ -56,6 +63,7 @@ public class BidListService {
 
 	@Transactional
 	public BidListDto saveBid(BidListDto bidListDtoToSave) {
+		logger.info("Saving bidList, return mapping bidListDto");
 
 		BidList bidListToSave = mapStructMapper.bidListDtoToBidList(bidListDtoToSave);
 

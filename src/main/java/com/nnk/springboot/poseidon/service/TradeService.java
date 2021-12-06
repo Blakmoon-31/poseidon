@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ import com.nnk.springboot.poseidon.repository.TradeRepository;
 @Service
 public class TradeService {
 
+	private static Logger logger = LoggerFactory.getLogger(TradeService.class);
+
 	@Autowired
 	private MapStructMapper mapStructMapper;
 
@@ -24,6 +28,7 @@ public class TradeService {
 	private TradeRepository tradeRepository;
 
 	public Collection<TradeDto> getTrades() {
+		logger.info("Obtaining trade of trades, mapping in tradeDtos");
 
 		Collection<Trade> trades = tradeRepository.findAll();
 
@@ -32,18 +37,8 @@ public class TradeService {
 		return tradeDtos;
 	}
 
-	@Transactional
-	public TradeDto saveTrade(@Valid TradeDto tradeDtoToSave) {
-
-		Trade tradeToSave = mapStructMapper.tradeDtoToTrade(tradeDtoToSave);
-
-		Trade tradeSaved = tradeRepository.save(tradeToSave);
-
-		return mapStructMapper.tradeToTradeDto(tradeSaved);
-
-	}
-
 	public Optional<TradeDto> getTradeByTradeId(Integer id) {
+		logger.info("Obtaining trade with id " + id + ", mapping in tradeDto");
 
 		Optional<Trade> trade = tradeRepository.findByTradeId(id);
 
@@ -59,10 +54,23 @@ public class TradeService {
 
 	@Transactional
 	public void deleteTrade(TradeDto tradeDtoToDelete) {
+		logger.info("Deleting trade");
 
 		Trade tradeToDelete = mapStructMapper.tradeDtoToTrade(tradeDtoToDelete);
 
 		tradeRepository.delete(tradeToDelete);
+
+	}
+
+	@Transactional
+	public TradeDto saveTrade(@Valid TradeDto tradeDtoToSave) {
+		logger.info("Saving trade, return mapping tradeDto");
+
+		Trade tradeToSave = mapStructMapper.tradeDtoToTrade(tradeDtoToSave);
+
+		Trade tradeSaved = tradeRepository.save(tradeToSave);
+
+		return mapStructMapper.tradeToTradeDto(tradeSaved);
 
 	}
 

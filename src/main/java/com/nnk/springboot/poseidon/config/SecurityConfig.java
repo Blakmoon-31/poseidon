@@ -28,32 +28,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/", "/home", "/login", "/logout", "/error").permitAll()
-				.antMatchers("/app/secure/article-details", "/user/**").hasAuthority("ADMIN").anyRequest()
-				.authenticated().and().formLogin().defaultSuccessUrl("/bidList/list", true).and().logout()
-				.logoutUrl("/app-logout").logoutSuccessHandler(oidcLogoutSuccessHandler()).invalidateHttpSession(true)
-				.clearAuthentication(true).deleteCookies("JSESSIONID").logoutSuccessUrl("/").and().oauth2Login()
-				.defaultSuccessUrl("/bidList/list", true);
 
-//			http.csrf().disable()
-//					.authorizeRequests()
-//						.antMatchers("/", "/home", "/login", "/logout", "/user/add", "/error")
-//							.permitAll()
-//						.antMatchers("/app/secure/article-details", "/user/list")
-//							.hasAuthority("ADMIN")
-//						.anyRequest()
-//							.authenticated()
-//					.and()
-//						.formLogin()
-//						.defaultSuccessUrl("/bidList/list", true)
-//						.failureUrl("/login?error=true")
-//							.permitAll()
-//					.and()
-//						.logout()
-//							.logoutUrl("/app-logout")
-//							.invalidateHttpSession(true)
-//							.deleteCookies("JSESSIONID")
-//							.logoutSuccessUrl("/");
+		// @formatter:off
+
+		http.csrf().disable()
+			.authorizeRequests()
+				.antMatchers("/", "/home", "/login", "/logout", "/error").permitAll()
+				.antMatchers("/app/secure/article-details", "/user/**").hasAuthority("ADMIN")
+				.anyRequest().authenticated()
+			.and()
+			.formLogin()
+				.defaultSuccessUrl("/bidList/list")
+			.and()
+			.logout()
+				.logoutUrl("/app-logout")
+				.logoutSuccessHandler(oidcLogoutSuccessHandler())
+				.invalidateHttpSession(true)
+				.clearAuthentication(true)
+				.deleteCookies("JSESSIONID")
+				.logoutSuccessUrl("/")
+			.and()
+			.oauth2Login()
+				.defaultSuccessUrl("/bidList/list")
+			.and()
+				.exceptionHandling()
+					.accessDeniedPage("/403");
+		 
+		// @formatter:on
 
 	}
 
@@ -81,8 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	/*
-	 * Autorizes css and images files
-	 * 
+	 * Autorizes statics resources (css...)
 	 */
 	@Override
 	public void configure(WebSecurity web) throws Exception {
