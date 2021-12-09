@@ -34,13 +34,13 @@ public class BidListServiceIT {
 		bidListForTests.setType("Type TestInit one");
 		bidListForTests.setBidQuantity(5d);
 
-		bidListService.saveBid(bidListForTests);
+		bidListService.saveBidList(bidListForTests);
 
 		bidListForTests.setAccount("Account TestInit two");
 		bidListForTests.setType("Type TestInit two");
 		bidListForTests.setBidQuantity(7d);
 
-		bidListService.saveBid(bidListForTests);
+		bidListService.saveBidList(bidListForTests);
 
 	}
 
@@ -65,7 +65,7 @@ public class BidListServiceIT {
 		bidListDto.setType("Type Test");
 		bidListDto.setBidQuantity(10d);
 
-		bidListDto = bidListService.saveBid(bidListDto);
+		bidListDto = bidListService.saveBidList(bidListDto);
 		assertThat(bidListDto.getBidListId()).isNotNull();
 		assertThat(bidListDto.getBidQuantity()).isEqualTo(10d);
 
@@ -84,7 +84,7 @@ public class BidListServiceIT {
 		}
 
 		bidListDtoToUpdate.setBidQuantity(20d);
-		bidListDtoToUpdate = bidListService.saveBid(bidListDtoToUpdate);
+		bidListDtoToUpdate = bidListService.saveBidList(bidListDtoToUpdate);
 		assertThat(bidListDtoToUpdate.getBidQuantity()).isEqualTo(20d);
 
 	}

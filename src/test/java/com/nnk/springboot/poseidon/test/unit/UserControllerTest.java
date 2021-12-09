@@ -43,7 +43,7 @@ public class UserControllerTest {
 	private UserService userService;
 
 	@BeforeAll
-	public void initTestsData() {
+	public void initTestData() {
 
 		User userOne = new User();
 		userOne.setUsername("User test one");
@@ -63,7 +63,7 @@ public class UserControllerTest {
 	}
 
 	@AfterAll
-	public void resetTestsData() {
+	public void resetTestData() {
 
 		Collection<User> users = userRepository.findAll();
 		for (User user : users) {
@@ -74,28 +74,28 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void testRequestUserPage() throws Exception {
+	public void testHomeUserList() throws Exception {
 
 		Model model = mock(Model.class);
-		String response = userController.home(model);
+		String response = userController.homeUserList(model);
 
 		assertThat(response).isEqualTo("user/list");
 
 	}
 
 	@Test
-	public void testAddUser() {
+	public void testAddUserForm() {
 
 		UserDto userDto = new UserDto();
 
-		String response = userController.addUser(userDto);
+		String response = userController.addUserForm(userDto);
 
 		assertThat(response).isEqualTo("user/add");
 
 	}
 
 	@Test
-	public void testValidateOk() {
+	public void testValidateUserOk() {
 
 		UserDto userDto = new UserDto();
 		userDto.setUsername("User test");
@@ -106,7 +106,7 @@ public class UserControllerTest {
 		BindingResult result = mock(BindingResult.class);
 		Model model = mock(Model.class);
 
-		String response = userController.validate(userDto, result, model);
+		String response = userController.validateUser(userDto, result, model);
 
 		assertThat(result.hasErrors()).isFalse();
 		assertThat(response).isEqualTo("redirect:/user/list");
@@ -114,7 +114,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void testValidateKoValidation() {
+	public void testValidateUserKoValidation() {
 
 		BindingResult result = mock(BindingResult.class);
 		Model model = mock(Model.class);
@@ -122,7 +122,7 @@ public class UserControllerTest {
 
 		when(result.hasErrors()).thenReturn(true);
 
-		String response = userController.validate(userDto, result, model);
+		String response = userController.validateUser(userDto, result, model);
 
 		assertThat(result.hasErrors()).isTrue();
 		assertThat(response).isEqualTo("user/add");
@@ -130,7 +130,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void testValidateKoPassword() {
+	public void testValidateUserKoPassword() {
 
 		BindingResult result = mock(BindingResult.class);
 		Model model = mock(Model.class);
@@ -142,7 +142,7 @@ public class UserControllerTest {
 
 //		when(result.hasErrors()).thenReturn(true);
 
-		String response = userController.validate(userDto, result, model);
+		String response = userController.validateUser(userDto, result, model);
 
 		assertThat(response).isEqualTo("user/add");
 
@@ -204,7 +204,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void testDeleteBid() {
+	public void testDeleteUser() {
 		Model model = mock(Model.class);
 
 		Collection<User> usersBeforeDelete = userRepository.findAll();

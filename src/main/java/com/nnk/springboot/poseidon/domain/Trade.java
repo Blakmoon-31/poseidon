@@ -14,14 +14,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-//@Data
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "trade")
 public class Trade {
-	// TODO: Map columns in data table TRADE with corresponding java fields
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

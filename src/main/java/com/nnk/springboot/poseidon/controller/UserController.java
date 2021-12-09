@@ -27,7 +27,7 @@ public class UserController {
 	private UserService userService;
 
 	@RequestMapping("/user/list")
-	public String home(Model model) {
+	public String homeUserList(Model model) {
 		logger.info("User list requested");
 
 		model.addAttribute("users", userService.getUsers());
@@ -35,14 +35,14 @@ public class UserController {
 	}
 
 	@GetMapping("/user/add")
-	public String addUser(UserDto userDto) {
+	public String addUserForm(UserDto userDto) {
 		logger.info("User add form requested");
 
 		return "user/add";
 	}
 
 	@PostMapping("/user/validate")
-	public String validate(@Valid UserDto userDto, BindingResult result, Model model) {
+	public String validateUser(@Valid UserDto userDto, BindingResult result, Model model) {
 		logger.info("Adding user requested");
 
 		if (!result.hasErrors()) {
@@ -69,7 +69,7 @@ public class UserController {
 	}
 
 	@GetMapping("/user/update/{id}")
-	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+	public String showUpdateUserForm(@PathVariable("id") Integer id, Model model) {
 		logger.info("User update form for id" + id + " requested");
 
 		UserDto userDto = userService.getUserById(id)

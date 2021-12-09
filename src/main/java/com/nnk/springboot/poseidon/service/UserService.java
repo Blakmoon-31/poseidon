@@ -129,18 +129,16 @@ public class UserService implements UserDetailsService {
 
 				// _________________________
 				// Modules
-				final String ONE_DIGIT = "(?=.*[0-9])"; // (?=.*[0-9]) a digit must occur at least once
+				final String ONE_DIGIT = "(?=.*[0-9])";
+				// (?=.*[0-9]) a digit must occur at least once
 				// final String LOWER_CASE = "(?=.*[a-z])"; //(?=.*[a-z]) a lower case letter
 				// must occur at least once, not needed in project
 				final String UPPER_CASE = "(?=.*[A-Z])"; // (?=.*[A-Z]) an upper case letter must occur at least once
 
-				final String MIN_CHAR = ".{" + MIN_LENGHT + ",}"; // .{8,} at least 8
-				// characters
-				// final String MIN_MAX_CHAR = ".{" + MIN_LENGHT + "," + MAX_LENGHT + "}"; //
-				// .{8,125} represents minimum
-				// of
-				// 8 characters and maximum of
-				// 125 characters
+				final String MIN_CHAR = ".{" + MIN_LENGHT + ",}";
+				// .{8,} at least 8 characters
+				// final String MIN_MAX_CHAR = ".{" + MIN_LENGHT + "," + MAX_LENGHT + "}";
+				// .{8,125} represents minimum of 8 characters and maximum of 125 characters
 
 				final String SPECIAL_CHAR;
 				if (SPECIAL_CHAR_NEEDED)

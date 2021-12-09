@@ -43,7 +43,7 @@ public class RuleNameControllerTest {
 	private RuleNameService ruleNameService;
 
 	@BeforeAll
-	public void initTestsData() {
+	public void initTestData() {
 
 		RuleName ruleNameOne = new RuleName();
 		ruleNameOne.setName("Name test one");
@@ -68,7 +68,7 @@ public class RuleNameControllerTest {
 	}
 
 	@AfterAll
-	public void resetTestsData() {
+	public void resetTestData() {
 
 		Collection<RuleName> ruleNames = ruleNameRepository.findAll();
 		for (RuleName rule : ruleNames) {
@@ -80,21 +80,21 @@ public class RuleNameControllerTest {
 	}
 
 	@Test
-	public void testRequestRatingPage() throws Exception {
+	public void testHomeRuleNameList() throws Exception {
 
 		Model model = mock(Model.class);
-		String response = ruleNameController.home(model);
+		String response = ruleNameController.homeRuleNameList(model);
 
 		assertThat(response).isEqualTo("ruleName/list");
 
 	}
 
 	@Test
-	public void testAddRatingForm() {
+	public void testAddRuleNameForm() {
 
 		RuleNameDto ruleNameDto = new RuleNameDto();
 
-		String response = ruleNameController.addRuleForm(ruleNameDto);
+		String response = ruleNameController.addRuleNameForm(ruleNameDto);
 
 		assertThat(response).isEqualTo("ruleName/add");
 
@@ -114,7 +114,7 @@ public class RuleNameControllerTest {
 		BindingResult result = mock(BindingResult.class);
 		Model model = mock(Model.class);
 
-		String response = ruleNameController.validate(ruleNameDto, result, model);
+		String response = ruleNameController.validateRuleName(ruleNameDto, result, model);
 
 		assertThat(result.hasErrors()).isFalse();
 		assertThat(response).isEqualTo("redirect:/ruleName/list");
@@ -122,7 +122,7 @@ public class RuleNameControllerTest {
 	}
 
 	@Test
-	public void testValidateKo() {
+	public void testValidateRuleNameKo() {
 
 		BindingResult result = mock(BindingResult.class);
 		Model model = mock(Model.class);
@@ -130,7 +130,7 @@ public class RuleNameControllerTest {
 
 		when(result.hasErrors()).thenReturn(true);
 
-		String response = ruleNameController.validate(ruleNameDto, result, model);
+		String response = ruleNameController.validateRuleName(ruleNameDto, result, model);
 
 		assertThat(result.hasErrors()).isTrue();
 		assertThat(response).isEqualTo("ruleName/add");

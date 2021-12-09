@@ -27,7 +27,7 @@ public class RatingController {
 	private RatingService ratingService;
 
 	@RequestMapping("/rating/list")
-	public String home(Model model) {
+	public String homeRatingList(Model model) {
 		logger.info("Rating list requested");
 
 		model.addAttribute("ratings", ratingService.getRatings());
@@ -43,7 +43,7 @@ public class RatingController {
 	}
 
 	@PostMapping("/rating/validate")
-	public String validate(@Validated RatingDto ratingDto, BindingResult result, Model model) {
+	public String validateRating(@Validated RatingDto ratingDto, BindingResult result, Model model) {
 		logger.info("Adding rating requested");
 
 		if (!result.hasErrors()) {
@@ -59,7 +59,7 @@ public class RatingController {
 	}
 
 	@GetMapping("/rating/update/{id}")
-	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+	public String showUpdateRatingForm(@PathVariable("id") Integer id, Model model) {
 		logger.info("Rating update form for id" + id + " requested");
 
 		model.addAttribute("ratingDto", ratingService.getRatingById(id).get());

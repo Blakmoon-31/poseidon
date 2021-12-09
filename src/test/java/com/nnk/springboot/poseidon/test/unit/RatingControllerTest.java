@@ -43,7 +43,7 @@ public class RatingControllerTest {
 	private RatingService ratingService;
 
 	@BeforeAll
-	public void initTestsData() {
+	public void initTestData() {
 
 		Rating ratingOne = new Rating();
 		ratingOne.setMoodysRating("Moodys test one");
@@ -64,7 +64,7 @@ public class RatingControllerTest {
 	}
 
 	@AfterAll
-	public void resetTestsData() {
+	public void resetTestData() {
 
 		Collection<Rating> ratings = ratingRepository.findAll();
 		for (Rating rating : ratings) {
@@ -75,10 +75,10 @@ public class RatingControllerTest {
 	}
 
 	@Test
-	public void testRequesRatingPage() throws Exception {
+	public void testHomeRatingList() throws Exception {
 
 		Model model = mock(Model.class);
-		String response = ratingController.home(model);
+		String response = ratingController.homeRatingList(model);
 
 		assertThat(response).isEqualTo("rating/list");
 
@@ -96,7 +96,7 @@ public class RatingControllerTest {
 	}
 
 	@Test
-	public void testValidateOk() {
+	public void testValidateRatingOk() {
 
 		RatingDto ratingDto = new RatingDto();
 		ratingDto.setMoodysRating("Moodys test");
@@ -107,7 +107,7 @@ public class RatingControllerTest {
 		BindingResult result = mock(BindingResult.class);
 		Model model = mock(Model.class);
 
-		String response = ratingController.validate(ratingDto, result, model);
+		String response = ratingController.validateRating(ratingDto, result, model);
 
 		assertThat(result.hasErrors()).isFalse();
 		assertThat(response).isEqualTo("redirect:/rating/list");
@@ -115,7 +115,7 @@ public class RatingControllerTest {
 	}
 
 	@Test
-	public void testValidateKo() {
+	public void testValidateRatingKo() {
 
 		BindingResult result = mock(BindingResult.class);
 		Model model = mock(Model.class);
@@ -123,7 +123,7 @@ public class RatingControllerTest {
 
 		when(result.hasErrors()).thenReturn(true);
 
-		String response = ratingController.validate(ratingDto, result, model);
+		String response = ratingController.validateRating(ratingDto, result, model);
 
 		assertThat(result.hasErrors()).isTrue();
 		assertThat(response).isEqualTo("rating/add");

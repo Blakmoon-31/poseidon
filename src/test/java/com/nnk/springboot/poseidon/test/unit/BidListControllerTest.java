@@ -43,7 +43,7 @@ public class BidListControllerTest {
 	private BidListService bidListService;
 
 	@BeforeAll
-	public void initTestsData() {
+	public void initTestData() {
 
 		BidList bidOne = new BidList();
 		bidOne.setAccount("Account test one");
@@ -61,7 +61,7 @@ public class BidListControllerTest {
 	}
 
 	@AfterAll
-	public void resetTestsData() {
+	public void resetTestData() {
 
 		Collection<BidList> bidLists = bidListRepository.findAll();
 		for (BidList bid : bidLists) {
@@ -72,17 +72,17 @@ public class BidListControllerTest {
 	}
 
 	@Test
-	public void testRequestBidListPage() throws Exception {
+	public void testHomeBidListList() throws Exception {
 
 		Model model = mock(Model.class);
-		String response = bidListController.home(model);
+		String response = bidListController.homeBidListList(model);
 
 		assertThat(response).isEqualTo("bidList/list");
 
 	}
 
 	@Test
-	public void testAddBidForm() {
+	public void testAddBidListForm() {
 
 		BidListDto bidListDto = new BidListDto();
 
@@ -93,7 +93,7 @@ public class BidListControllerTest {
 	}
 
 	@Test
-	public void testValidateOk() {
+	public void testValidateBidListOk() {
 
 		BidListDto bidListDto = new BidListDto();
 		bidListDto.setAccount("Account test");
@@ -103,7 +103,7 @@ public class BidListControllerTest {
 		BindingResult result = mock(BindingResult.class);
 		Model model = mock(Model.class);
 
-		String response = bidListController.validate(bidListDto, result, model);
+		String response = bidListController.validateBidList(bidListDto, result, model);
 
 		assertThat(result.hasErrors()).isFalse();
 		assertThat(response).isEqualTo("redirect:/bidList/list");
@@ -111,7 +111,7 @@ public class BidListControllerTest {
 	}
 
 	@Test
-	public void testValidateKo() {
+	public void testValidateBidListKo() {
 
 		BindingResult result = mock(BindingResult.class);
 		Model model = mock(Model.class);
@@ -119,7 +119,7 @@ public class BidListControllerTest {
 
 		when(result.hasErrors()).thenReturn(true);
 
-		String response = bidListController.validate(bidListDto, result, model);
+		String response = bidListController.validateBidList(bidListDto, result, model);
 
 		assertThat(result.hasErrors()).isTrue();
 		assertThat(response).isEqualTo("bidList/add");
@@ -127,7 +127,7 @@ public class BidListControllerTest {
 	}
 
 	@Test
-	public void testUpdateBidOk() {
+	public void testUpdateBidListOk() {
 
 		BindingResult result = mock(BindingResult.class);
 		Model model = mock(Model.class);
@@ -141,7 +141,7 @@ public class BidListControllerTest {
 				bidDtoToUpdate.setType(bid.getType());
 				bidDtoToUpdate.setBidQuantity(77d);
 
-				bidListController.updateBid(bid.getBidListId(), bidDtoToUpdate, result, model);
+				bidListController.updateBidList(bid.getBidListId(), bidDtoToUpdate, result, model);
 			}
 		}
 
@@ -151,7 +151,7 @@ public class BidListControllerTest {
 	}
 
 	@Test
-	public void testUpdateBidKo() {
+	public void testUpdateBidListKo() {
 
 		BindingResult result = mock(BindingResult.class);
 		Model model = mock(Model.class);
@@ -168,7 +168,7 @@ public class BidListControllerTest {
 				bidDtoToUpdate.setType("");
 				bidDtoToUpdate.setBidQuantity(bid.getBidQuantity());
 
-				response = bidListController.updateBid(bid.getBidListId(), bidDtoToUpdate, result, model);
+				response = bidListController.updateBidList(bid.getBidListId(), bidDtoToUpdate, result, model);
 			}
 		}
 
@@ -180,14 +180,14 @@ public class BidListControllerTest {
 	}
 
 	@Test
-	public void testDeleteBid() {
+	public void testDeleteBidList() {
 		Model model = mock(Model.class);
 
 		Collection<BidList> bidsBeforeDelete = bidListRepository.findAll();
 		int listSize = bidsBeforeDelete.size();
 		for (BidList bid : bidsBeforeDelete) {
 			if (bid.getAccount().equals("Account test one")) {
-				bidListController.deleteBid(bid.getBidListId(), model);
+				bidListController.deleteBidList(bid.getBidListId(), model);
 			}
 		}
 		Collection<BidList> bidsAfterDelete = bidListRepository.findAll();

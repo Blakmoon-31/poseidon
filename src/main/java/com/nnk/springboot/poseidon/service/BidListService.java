@@ -62,7 +62,7 @@ public class BidListService {
 	}
 
 	@Transactional
-	public BidListDto saveBid(BidListDto bidListDtoToSave) {
+	public BidListDto saveBidList(BidListDto bidListDtoToSave) {
 		logger.info("Saving bidList, return mapping bidListDto");
 
 		BidList bidListToSave = mapStructMapper.bidListDtoToBidList(bidListDtoToSave);

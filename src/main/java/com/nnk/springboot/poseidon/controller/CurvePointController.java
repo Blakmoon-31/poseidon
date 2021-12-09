@@ -26,7 +26,7 @@ public class CurvePointController {
 	private CurvePointService curvePointService;
 
 	@RequestMapping("/curvePoint/list")
-	public String home(Model model) {
+	public String homeCurvePointList(Model model) {
 		logger.info("CurvePoint list requested");
 
 		model.addAttribute("curvePoints", curvePointService.getCurvePoints());
@@ -42,7 +42,7 @@ public class CurvePointController {
 	}
 
 	@PostMapping("/curvePoint/validate")
-	public String validate(@Valid CurvePointDto curvePointDto, BindingResult result, Model model) {
+	public String validateCurvePoint(@Valid CurvePointDto curvePointDto, BindingResult result, Model model) {
 		logger.info("Adding curvePoint requested");
 
 		if (!result.hasErrors()) {
@@ -58,7 +58,7 @@ public class CurvePointController {
 	}
 
 	@GetMapping("/curvePoint/update/{id}")
-	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+	public String showUpdateCurvePointForm(@PathVariable("id") Integer id, Model model) {
 		logger.info("CurvePoint update form for id" + id + " requested");
 
 		model.addAttribute("curvePointDto", curvePointService.getCurvePointById(id).get());

@@ -26,7 +26,7 @@ public class RuleNameController {
 	private RuleNameService ruleNameService;
 
 	@RequestMapping("/ruleName/list")
-	public String home(Model model) {
+	public String homeRuleNameList(Model model) {
 		logger.info("RuleName list requested");
 
 		model.addAttribute("ruleNames", ruleNameService.getRuleNames());
@@ -35,14 +35,14 @@ public class RuleNameController {
 	}
 
 	@GetMapping("/ruleName/add")
-	public String addRuleForm(RuleNameDto ruleNameDto) {
+	public String addRuleNameForm(RuleNameDto ruleNameDto) {
 		logger.info("RuleName add form requested");
 
 		return "ruleName/add";
 	}
 
 	@PostMapping("/ruleName/validate")
-	public String validate(@Valid RuleNameDto ruleNameDto, BindingResult result, Model model) {
+	public String validateRuleName(@Valid RuleNameDto ruleNameDto, BindingResult result, Model model) {
 		logger.info("Adding ruleName requested");
 
 		if (!result.hasErrors()) {
@@ -58,7 +58,7 @@ public class RuleNameController {
 	}
 
 	@GetMapping("/ruleName/update/{id}")
-	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+	public String showUpdateRuleNameForm(@PathVariable("id") Integer id, Model model) {
 		logger.info("RuleName update form for id" + id + " requested");
 
 		model.addAttribute("ruleNameDto", ruleNameService.getRuleNameById(id).get());

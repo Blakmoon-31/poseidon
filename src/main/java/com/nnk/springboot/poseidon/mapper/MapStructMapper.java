@@ -55,6 +55,8 @@ public interface MapStructMapper {
 
 	User userDtoToUser(UserDto userDto);
 
+	UserListDto userToUserListDto(User user);
+
 	Collection<UserListDto> usersToUserDtos(Collection<User> bidLists);
 
 }

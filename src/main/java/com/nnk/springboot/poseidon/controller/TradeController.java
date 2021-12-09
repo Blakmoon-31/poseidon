@@ -26,7 +26,7 @@ public class TradeController {
 	private TradeService tradeService;
 
 	@RequestMapping("/trade/list")
-	public String home(Model model) {
+	public String homeTradeList(Model model) {
 		logger.info("Trade list requested");
 
 		model.addAttribute("trades", tradeService.getTrades());
@@ -42,7 +42,7 @@ public class TradeController {
 	}
 
 	@PostMapping("/trade/validate")
-	public String validate(@Valid TradeDto tradeDto, BindingResult result, Model model) {
+	public String validateTrade(@Valid TradeDto tradeDto, BindingResult result, Model model) {
 		logger.info("Adding trade requested");
 
 		if (!result.hasErrors()) {
@@ -58,7 +58,7 @@ public class TradeController {
 	}
 
 	@GetMapping("/trade/update/{id}")
-	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+	public String showUpdateTradeForm(@PathVariable("id") Integer id, Model model) {
 		logger.info("Trade update form for id" + id + " requested");
 
 		model.addAttribute("tradeDto", tradeService.getTradeByTradeId(id).get());

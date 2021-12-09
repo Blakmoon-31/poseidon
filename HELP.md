@@ -1,10 +1,10 @@
 # Users for testing
 username : admin
-password : belleville
+password : Poseidon1#
 role : ADMIN
 
 username : user
-password : belleville
+password : Poseidon1#
 role : USER
 
 # Getting Started

@@ -43,7 +43,7 @@ public class TradeControllerTest {
 	private TradeService tradeService;
 
 	@BeforeAll
-	public void initTestsData() {
+	public void initTestData() {
 
 		Trade tradeOne = new Trade();
 		tradeOne.setAccount("Account test one");
@@ -61,7 +61,7 @@ public class TradeControllerTest {
 	}
 
 	@AfterAll
-	public void resetTestsData() {
+	public void resetTestData() {
 
 		Collection<Trade> trades = tradeRepository.findAll();
 		for (Trade trade : trades) {
@@ -72,17 +72,17 @@ public class TradeControllerTest {
 	}
 
 	@Test
-	public void testRequestTradePage() throws Exception {
+	public void testHomeTradeList() throws Exception {
 
 		Model model = mock(Model.class);
-		String response = tradeController.home(model);
+		String response = tradeController.homeTradeList(model);
 
 		assertThat(response).isEqualTo("trade/list");
 
 	}
 
 	@Test
-	public void testAddBidForm() {
+	public void testAddTradeForm() {
 
 		TradeDto tradeDto = new TradeDto();
 
@@ -93,7 +93,7 @@ public class TradeControllerTest {
 	}
 
 	@Test
-	public void testValidateOk() {
+	public void testValidateTradeOk() {
 
 		TradeDto tradeDto = new TradeDto();
 		tradeDto.setAccount("Account test");
@@ -103,7 +103,7 @@ public class TradeControllerTest {
 		BindingResult result = mock(BindingResult.class);
 		Model model = mock(Model.class);
 
-		String response = tradeController.validate(tradeDto, result, model);
+		String response = tradeController.validateTrade(tradeDto, result, model);
 
 		assertThat(result.hasErrors()).isFalse();
 		assertThat(response).isEqualTo("redirect:/trade/list");
@@ -111,7 +111,7 @@ public class TradeControllerTest {
 	}
 
 	@Test
-	public void testValidateKo() {
+	public void testValidateTradeKo() {
 
 		BindingResult result = mock(BindingResult.class);
 		Model model = mock(Model.class);
@@ -119,7 +119,7 @@ public class TradeControllerTest {
 
 		when(result.hasErrors()).thenReturn(true);
 
-		String response = tradeController.validate(tradeDto, result, model);
+		String response = tradeController.validateTrade(tradeDto, result, model);
 
 		assertThat(result.hasErrors()).isTrue();
 		assertThat(response).isEqualTo("trade/add");
@@ -151,7 +151,7 @@ public class TradeControllerTest {
 	}
 
 	@Test
-	public void testUpdateBidKo() {
+	public void testUpdateTradeKo() {
 
 		BindingResult result = mock(BindingResult.class);
 		Model model = mock(Model.class);
@@ -180,7 +180,7 @@ public class TradeControllerTest {
 	}
 
 	@Test
-	public void testDeleteBid() {
+	public void testDeleteTrade() {
 		Model model = mock(Model.class);
 
 		Collection<Trade> tradesBeforeDelete = tradeRepository.findAll();

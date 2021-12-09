@@ -43,7 +43,7 @@ public class CurvePointControllerTest {
 	private CurvePointService curvePointService;
 
 	@BeforeAll
-	public void initTests() {
+	public void initTestData() {
 
 		CurvePoint curveOne = new CurvePoint();
 		curveOne.setCurveId(1);
@@ -62,7 +62,7 @@ public class CurvePointControllerTest {
 	}
 
 	@AfterAll
-	public void resetTestsData() {
+	public void resetTestData() {
 
 		Collection<CurvePoint> curvePoints = curvePointRepository.findAll();
 		for (CurvePoint curve : curvePoints) {
@@ -77,10 +77,10 @@ public class CurvePointControllerTest {
 	}
 
 	@Test
-	public void testRequestCurvePointPage() throws Exception {
+	public void testHomeCurvePointList() throws Exception {
 
 		Model model = mock(Model.class);
-		String response = curvePointController.home(model);
+		String response = curvePointController.homeCurvePointList(model);
 
 		assertThat(response).isEqualTo("curvePoint/list");
 
@@ -98,7 +98,7 @@ public class CurvePointControllerTest {
 	}
 
 	@Test
-	public void testValidateOk() {
+	public void testValidateCurvePointOk() {
 
 		CurvePointDto curvePointDto = new CurvePointDto();
 		curvePointDto.setCurveId(3);
@@ -108,7 +108,7 @@ public class CurvePointControllerTest {
 		BindingResult result = mock(BindingResult.class);
 		Model model = mock(Model.class);
 
-		String response = curvePointController.validate(curvePointDto, result, model);
+		String response = curvePointController.validateCurvePoint(curvePointDto, result, model);
 
 		assertThat(result.hasErrors()).isFalse();
 		assertThat(response).isEqualTo("redirect:/curvePoint/list");
@@ -116,14 +116,14 @@ public class CurvePointControllerTest {
 	}
 
 	@Test
-	public void testValidateKo() {
+	public void testValidateCurvePointKo() {
 
 		BindingResult result = mock(BindingResult.class);
 		Model model = mock(Model.class);
 		CurvePointDto curvePointDto = new CurvePointDto();
 
 		when(result.hasErrors()).thenReturn(true);
-		String response = curvePointController.validate(curvePointDto, result, model);
+		String response = curvePointController.validateCurvePoint(curvePointDto, result, model);
 
 		assertThat(result.hasErrors()).isTrue();
 		assertThat(response).isEqualTo("curvePoint/add");

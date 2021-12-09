@@ -13,14 +13,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-//@Data
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "rulename")
 public class RuleName {
-	// TODO: Map columns in data table RULENAME with corresponding java fields
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
