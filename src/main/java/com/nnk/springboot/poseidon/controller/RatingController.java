@@ -68,15 +68,15 @@ public class RatingController {
 	}
 
 	@PutMapping("/rating/update/{id}")
-	public String updateRating(@PathVariable("id") Integer id, @Valid RatingDto ratingdto, BindingResult result,
+	public String updateRating(@PathVariable("id") Integer id, @Valid RatingDto ratingDto, BindingResult result,
 			Model model) {
 		logger.info("Updating rating with id " + id + " requested");
 
 		if (!result.hasErrors()) {
 			logger.info("Rating updated, redirecting to list");
 
-			ratingdto.setId(id);
-			ratingService.saveRating(ratingdto);
+			ratingDto.setId(id);
+			ratingService.saveRating(ratingDto);
 			model.addAttribute("ratings", ratingService.getRatings());
 			return "redirect:/rating/list";
 		}

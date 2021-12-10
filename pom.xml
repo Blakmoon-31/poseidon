@@ -94,7 +94,7 @@
 				</dependencies>
 				<configuration>
 					<includes>
-						<include>**/*IT.java</include>
+						<include>**/*.java</include>
 					</includes>
 				</configuration>
 				<executions>
@@ -141,15 +141,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
+ 			</plugin>
 	        <plugin>
 	            <groupId>org.apache.maven.plugins</groupId>
 	            <artifactId>maven-compiler-plugin</artifactId>
@@ -157,6 +149,11 @@
 	                <source>11</source> <!-- depending on your project. In this example, Java 11 is used -->
 	                <target>11</target> <!-- depending on your project. In this example, Java 11 is used -->
 	                <annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>1.18.22</version>
+						</path>
 	                    <path>
 	                        <groupId>org.mapstruct</groupId> 
 	                        <artifactId>mapstruct-processor</artifactId>
