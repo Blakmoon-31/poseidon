@@ -58,7 +58,7 @@ public class BidListController {
 
 	@GetMapping("/bidList/update/{id}")
 	public String showUpdateBidListForm(@PathVariable("id") Integer id, Model model) {
-		logger.info("BidList update form for id" + id + " requested");
+		logger.info("BidList update form for id " + id + " requested");
 
 		model.addAttribute("bidListDto", bidListService.getBidListByBidListId(id).get());
 

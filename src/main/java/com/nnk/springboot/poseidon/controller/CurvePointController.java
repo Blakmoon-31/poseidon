@@ -59,7 +59,7 @@ public class CurvePointController {
 
 	@GetMapping("/curvePoint/update/{id}")
 	public String showUpdateCurvePointForm(@PathVariable("id") Integer id, Model model) {
-		logger.info("CurvePoint update form for id" + id + " requested");
+		logger.info("CurvePoint update form for id " + id + " requested");
 
 		model.addAttribute("curvePointDto", curvePointService.getCurvePointById(id).get());
 

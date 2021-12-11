@@ -70,7 +70,7 @@ public class UserController {
 
 	@GetMapping("/user/update/{id}")
 	public String showUpdateUserForm(@PathVariable("id") Integer id, Model model) {
-		logger.info("User update form for id" + id + " requested");
+		logger.info("User update form for id " + id + " requested");
 
 		UserDto userDto = userService.getUserById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
@@ -103,7 +103,7 @@ public class UserController {
 			}
 
 		}
-		logger.debug("Invalid data for usaer with id " + id + ", return to update form");
+		logger.debug("Invalid data for user with id " + id + ", return to update form");
 
 		return "/user/update/" + id;
 	}

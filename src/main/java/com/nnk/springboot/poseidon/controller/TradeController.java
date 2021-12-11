@@ -59,7 +59,7 @@ public class TradeController {
 
 	@GetMapping("/trade/update/{id}")
 	public String showUpdateTradeForm(@PathVariable("id") Integer id, Model model) {
-		logger.info("Trade update form for id" + id + " requested");
+		logger.info("Trade update form for id " + id + " requested");
 
 		model.addAttribute("tradeDto", tradeService.getTradeByTradeId(id).get());
 
