@@ -1,6 +1,7 @@
 package com.nnk.springboot.poseidon.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class BidListDto {
 	@Size(max = 30)
 	private String type;
 
+	@NotNull(message = "Bid Quantity must not be null")
 	private Double bidQuantity;
 
 }

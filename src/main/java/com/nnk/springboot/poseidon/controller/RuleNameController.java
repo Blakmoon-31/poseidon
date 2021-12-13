@@ -81,7 +81,7 @@ public class RuleNameController {
 		}
 		logger.debug("Invalid data for ruleName with id " + id + ", return to update form");
 
-		return "/ruleName/update/" + id;
+		return "/ruleName/update";
 	}
 
 	@GetMapping("/ruleName/delete/{id}")

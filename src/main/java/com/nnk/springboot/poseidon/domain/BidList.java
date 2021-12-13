@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.Getter;
@@ -37,6 +38,7 @@ public class BidList {
 	@Column(name = "type")
 	private String type;
 
+	@NotNull(message = "Bid Quantity must not be null")
 	@Column(name = "bidQuantity")
 	private Double bidQuantity;
 

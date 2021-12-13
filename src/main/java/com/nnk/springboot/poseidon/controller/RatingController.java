@@ -82,7 +82,7 @@ public class RatingController {
 		}
 		logger.debug("Invalid data for rating with id " + id + ", return to update form");
 
-		return "/rating/update/" + id;
+		return "/rating/update";
 	}
 
 	@GetMapping("/rating/delete/{id}")

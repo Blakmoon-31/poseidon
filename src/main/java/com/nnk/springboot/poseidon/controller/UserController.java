@@ -97,15 +97,16 @@ public class UserController {
 			} else {
 				logger.debug("User not updated because of invalid password, return to add form with error message");
 
-				model.addAttribute("ErrPassword",
+				ObjectError error = new ObjectError("globalError",
 						"Password must be at least 8 characters and content at least one digit, one upper case letter and one special character");
-				return "/user/update/" + id;
+				result.addError(error);
+				return "/user/update";
 			}
 
 		}
 		logger.debug("Invalid data for user with id " + id + ", return to update form");
 
-		return "/user/update/" + id;
+		return "/user/update";
 	}
 
 	@GetMapping("/user/delete/{id}")

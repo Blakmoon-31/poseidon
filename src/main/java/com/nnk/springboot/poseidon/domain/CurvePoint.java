@@ -33,9 +33,11 @@ public class CurvePoint {
 	@Column(name = "asOfDate")
 	private LocalDateTime asOfDate;
 
+	@NotNull(message = "Term must not be null")
 	@Column(name = "term")
 	private Double term;
 
+	@NotNull(message = "Value must not be null")
 	@Column(name = "value")
 	private Double value;
 

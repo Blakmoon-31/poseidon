@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.Getter;
@@ -40,6 +41,7 @@ public class Rating {
 	@Column(name = "fitchRating")
 	private String fitchRating;
 
+	@NotNull(message = "Order Number must not be null")
 	@Column(name = "orderNumber")
 	private Integer orderNumber;
 

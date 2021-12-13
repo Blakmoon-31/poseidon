@@ -1,7 +1,5 @@
 package com.nnk.springboot.poseidon.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,14 +10,11 @@ import com.nnk.springboot.poseidon.service.UserService;
 @Controller
 public class LoginController {
 
-	private static Logger logger = LoggerFactory.getLogger(LoginController.class);
-
 	@Autowired
 	private UserService userService;
 
 	@GetMapping("login")
 	public ModelAndView login() {
-		logger.info("Mapping to page /trade/list");
 
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("trade/list");
@@ -28,7 +23,6 @@ public class LoginController {
 
 	@GetMapping("/app/secure/article-details")
 	public ModelAndView getAllUserArticles() {
-		logger.info("Mapping to page /user/list");
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("users", userService.getUsers());
@@ -38,7 +32,6 @@ public class LoginController {
 
 	@GetMapping({ "/error", "/403" })
 	public ModelAndView error() {
-		logger.info("Mapping to page /403");
 
 		ModelAndView mav = new ModelAndView();
 		String errorMessage = "You are not authorized for the requested data.";

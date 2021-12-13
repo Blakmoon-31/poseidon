@@ -80,7 +80,7 @@ public class BidListController {
 		}
 		logger.debug("Invalid data for bidList with id " + id + ", return to update form");
 
-		return "/bidList/update/" + id;
+		return "/bidList/update";
 	}
 
 	@GetMapping("/bidList/delete/{id}")

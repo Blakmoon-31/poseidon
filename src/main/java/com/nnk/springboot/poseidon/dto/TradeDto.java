@@ -1,6 +1,7 @@
 package com.nnk.springboot.poseidon.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class TradeDto {
 	@NotBlank(message = "Type is mandatory")
 	private String type;
 
+	@NotNull(message = "Buy Quantity must not be null")
 	private Double buyQuantity;
 
 }

@@ -81,7 +81,7 @@ public class CurvePointController {
 		}
 		logger.debug("Invalid data for curvePoint with id " + id + ", return to update form");
 
-		return "/curvePoint/update/" + id;
+		return "/curvePoint/update";
 	}
 
 	@GetMapping("/curvePoint/delete/{id}")

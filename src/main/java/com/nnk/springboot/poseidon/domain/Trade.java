@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,7 @@ public class Trade {
 	@Column(name = "type")
 	private String type;
 
+	@NotNull(message = "Buy Quantity must not be null")
 	@Column(name = "buyQuantity")
 	private Double buyQuantity;
 

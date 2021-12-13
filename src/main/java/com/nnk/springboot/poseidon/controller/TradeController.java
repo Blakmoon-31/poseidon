@@ -81,7 +81,7 @@ public class TradeController {
 		}
 		logger.debug("Invalid data for trade with id " + id + ", return to update form");
 
-		return "/trade/update/" + id;
+		return "/trade/update";
 	}
 
 	@GetMapping("/trade/delete/{id}")

@@ -1,6 +1,7 @@
 package com.nnk.springboot.poseidon.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.Getter;
@@ -26,6 +27,7 @@ public class RatingDto {
 	@Size(max = 125)
 	private String fitchRating;
 
+	@NotNull(message = "Order Number must not be null")
 	private Integer orderNumber;
 
 }
