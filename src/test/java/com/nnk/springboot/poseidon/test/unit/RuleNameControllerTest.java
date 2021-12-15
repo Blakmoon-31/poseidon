@@ -192,7 +192,7 @@ public class RuleNameControllerTest {
 		Optional<RuleName> ruleNameUpdated = ruleNameRepository.findById(ruleNameDtoToUpdate.getId());
 
 		assertThat(result.hasErrors()).isTrue();
-		assertThat(response).isEqualTo("/ruleName/update/" + ruleNameDtoToUpdate.getId());
+		assertThat(response).isEqualTo("/ruleName/update");
 		assertThat(ruleNameUpdated.get().getJson()).isEqualTo("Json test two");
 	}
 

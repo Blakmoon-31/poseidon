@@ -199,7 +199,7 @@ public class UserControllerTest {
 		Optional<User> userUpdated = userRepository.findById(userDtoToUpdate.getId());
 
 		assertThat(result.hasErrors()).isTrue();
-		assertThat(response).isEqualTo("/user/update/" + userDtoToUpdate.getId());
+		assertThat(response).isEqualTo("/user/update");
 		assertThat(userUpdated.get().getRole()).isEqualTo("ADMIN");
 	}
 

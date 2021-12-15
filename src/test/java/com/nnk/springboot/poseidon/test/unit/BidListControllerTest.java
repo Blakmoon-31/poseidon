@@ -175,7 +175,7 @@ public class BidListControllerTest {
 		Optional<BidList> bidUpdated = bidListRepository.findByBidListId(bidDtoToUpdate.getBidListId());
 
 		assertThat(result.hasErrors()).isTrue();
-		assertThat(response).isEqualTo("/bidList/update/" + bidDtoToUpdate.getBidListId());
+		assertThat(response).isEqualTo("/bidList/update");
 		assertThat(bidUpdated.get().getType()).isEqualTo("Type test two");
 	}
 

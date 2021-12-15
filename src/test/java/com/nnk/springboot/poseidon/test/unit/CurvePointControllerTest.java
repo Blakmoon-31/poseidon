@@ -179,7 +179,7 @@ public class CurvePointControllerTest {
 		Optional<CurvePoint> curvePointUpdated = curvePointRepository.findById(curvePointDtoToUpdate.getId());
 
 		assertThat(result.hasErrors()).isTrue();
-		assertThat(response).isEqualTo("/curvePoint/update/" + curvePointDtoToUpdate.getId());
+		assertThat(response).isEqualTo("/curvePoint/update");
 		assertThat(curvePointUpdated.get().getCurveId()).isEqualTo(2);
 	}
 

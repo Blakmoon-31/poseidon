@@ -175,7 +175,7 @@ public class TradeControllerTest {
 		Optional<Trade> tradeUpdated = tradeRepository.findByTradeId(tradeDtoToUpdate.getTradeId());
 
 		assertThat(result.hasErrors()).isTrue();
-		assertThat(response).isEqualTo("/trade/update/" + tradeDtoToUpdate.getTradeId());
+		assertThat(response).isEqualTo("/trade/update");
 		assertThat(tradeUpdated.get().getType()).isEqualTo("Type test two");
 	}
 

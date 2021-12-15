@@ -181,7 +181,7 @@ public class RatingControllerTest {
 		Optional<Rating> ratingUpdated = ratingRepository.findById(ratingDtoToUpdate.getId());
 
 		assertThat(result.hasErrors()).isTrue();
-		assertThat(response).isEqualTo("/rating/update/" + ratingDtoToUpdate.getId());
+		assertThat(response).isEqualTo("/rating/update");
 		assertThat(ratingUpdated.get().getSandPRating()).isEqualTo("SandP test two");
 	}
 
